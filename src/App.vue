@@ -1,37 +1,42 @@
 <template>
   <TheHeader title="F1 Standings" />
-  <ConstructorTable class="driverTableWrapper" :openInNewTab="openInNewTab" />
+  <TheTableToggle />
+  <ThePageInfo />
 </template>
 
 <script>
-import TheHeader from "./components/layouts/TheHeader.vue";
-//import DriverTable from "./components/tables/DriverTable.vue";
-import ConstructorTable from "./components/tables/ConstructorTable.vue";
+import TheHeader from './components/layouts/TheHeader.vue';
+import TheTableToggle from './components/layouts/TheTableToggle.vue';
+import ThePageInfo from './components/layouts/ThePageInfo.vue';
+
 export default {
-  name: "App",
-  components: { TheHeader, ConstructorTable },
+  name: 'App',
+  components: { TheHeader, TheTableToggle, ThePageInfo },
   data() {
     return {
-      selectedTable: "drivers",
+      selectedTable: 'drivers'
     };
-  },
-  methods: {
-    openInNewTab(url) {
-      window.open(url, "_blank");
-    },
-  },
+  }
 };
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
+}
+
+a {
+  color: #b2482e;
+}
+
+p {
+  padding: 10px;
 }
 
 @media screen and (min-width: 750px) {
@@ -44,6 +49,10 @@ html {
   }
 
   body {
+    font-size: 1.5rem;
+  }
+
+  button {
     font-size: 1.5rem;
   }
 }
@@ -60,6 +69,10 @@ html {
   body {
     font-size: 2.5vw;
   }
+
+  button {
+    font-size: 2.5vw;
+  }
 }
 
 body {
@@ -68,7 +81,7 @@ body {
 }
 
 #app {
-  font-family: "Quicksand", Helvetica, Arial, sans-serif;
+  font-family: 'Quicksand', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -133,5 +146,13 @@ th {
 
 th[title] {
   text-decoration: underline dotted;
+}
+
+.toggleButtons {
+  display: inline-block;
+  overflow: hidden;
+  margin-bottom: 0 !important;
+  margin-top: 10px !important;
+  border: solid 4px #b2482e;
 }
 </style>
