@@ -35,6 +35,10 @@ a {
   color: #b2482e;
 }
 
+button:focus {
+  outline-width: 0;
+}
+
 hr {
   border: 0;
   height: 1px;
