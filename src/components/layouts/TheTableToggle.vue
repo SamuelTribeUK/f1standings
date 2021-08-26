@@ -11,13 +11,14 @@
       >Constructors</base-button
     >
   </base-card>
-  <keep-alive>
-    <component
-      :is="selectedTable"
-      class="driverTableWrapper"
-      :openInNewTab="openInNewTab"
-    ></component>
-  </keep-alive>
+  <DriverTable
+    v-show="selectedTable === 'driver-table'"
+    :openInNewTab="openInNewTab"
+  />
+  <ConstructorTable
+    v-show="selectedTable === 'constructor-table'"
+    :openInNewTab="openInNewTab"
+  />
 </template>
 
 <script>

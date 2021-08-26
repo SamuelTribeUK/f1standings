@@ -9,40 +9,45 @@
         </tr>
       </thead>
       <tbody>
-        <constructor-row
-          v-for="constructor in constructors"
-          :key="constructor.id"
-          :position="constructor.position"
-          :team="constructor.team"
-          :points="constructor.points"
-          @click="openInNewTab(constructor.url)"
-        ></constructor-row>
+        <keep-alive>
+          <constructor-row
+            v-for="constructor in constructors"
+            :key="constructor.id"
+            :position="constructor.position"
+            :team="constructor.team"
+            :points="constructor.points"
+            @click="openInNewTab(constructor.url)"
+          ></constructor-row>
+        </keep-alive>
       </tbody>
     </table>
   </base-card>
 </template>
 
 <script>
-import ConstructorRow from "./rows/ConstructorRow.vue";
+import ConstructorRow from './rows/ConstructorRow.vue';
 export default {
-  props: ["openInNewTab"],
+  props: ['openInNewTab'],
   components: {
-    ConstructorRow,
+    ConstructorRow
   },
   data() {
     return {
-      constructors: [],
+      constructors: []
     };
+  },
+  created() {
+    this.getStandings();
   },
   methods: {
     getStandings() {
-      fetch("https://f1.samueltribe.com/constructorStandings.json")
-        .then((response) => {
+      fetch('https://f1.samueltribe.com/constructorStandings.json')
+        .then(response => {
           if (response.ok) {
             return response.json();
           }
         })
-        .then((data) => {
+        .then(data => {
           const constructorStandings =
             data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
           for (const id in constructorStandings) {
@@ -52,14 +57,11 @@ export default {
               position: parseInt(id) + 1,
               team: constructorStandings[id].Constructor.name,
               points: constructorStandings[id].points,
-              url: constructor.url,
+              url: constructor.url
             });
           }
         });
-    },
-  },
-  mounted() {
-    this.getStandings();
-  },
+    }
+  }
 };
 </script>

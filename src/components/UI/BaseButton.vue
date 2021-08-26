@@ -13,12 +13,14 @@ export default {
 <style scoped>
 * {
   transition: 0.3s;
+  border-radius: 0;
 }
 button {
   padding: 0.75rem 1.5rem;
   font-family: inherit;
   background-color: #b2482e;
   border: none;
+  border-radius: 0;
   color: white;
   cursor: pointer;
 }

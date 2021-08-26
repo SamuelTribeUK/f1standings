@@ -2,11 +2,12 @@
   <header>
     <h1>{{ title }}</h1>
   </header>
+  <hr />
 </template>
 
 <script>
 export default {
-  props: ['title'],
+  props: ['title']
 };
 </script>
 

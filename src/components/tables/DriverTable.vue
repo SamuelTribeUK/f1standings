@@ -11,42 +11,44 @@
         </tr>
       </thead>
       <tbody>
-        <driver-row
-          v-for="driver in drivers"
-          :key="driver.id"
-          :position="driver.position"
-          :driverNumber="driver.number"
-          :name="driver.name"
-          :car="driver.car"
-          :points="driver.points"
-          @click="openInNewTab(driver.url)"
-        ></driver-row>
+        <keep-alive>
+          <driver-row
+            v-for="driver in drivers"
+            :key="driver.id"
+            :position="driver.position"
+            :driverNumber="driver.number"
+            :name="driver.name"
+            :car="driver.car"
+            :points="driver.points"
+            @click="openInNewTab(driver.url)"
+          ></driver-row>
+        </keep-alive>
       </tbody>
     </table>
   </base-card>
 </template>
 
 <script>
-import DriverRow from "./rows/DriverRow.vue";
+import DriverRow from './rows/DriverRow.vue';
 export default {
-  props: ["openInNewTab"],
+  props: ['openInNewTab'],
   components: {
-    DriverRow,
+    DriverRow
   },
   data() {
     return {
-      drivers: [],
+      drivers: []
     };
   },
   methods: {
     getStandings() {
-      fetch("https://f1.samueltribe.com/driverStandings.json")
-        .then((response) => {
+      fetch('https://f1.samueltribe.com/driverStandings.json')
+        .then(response => {
           if (response.ok) {
             return response.json();
           }
         })
-        .then((data) => {
+        .then(data => {
           const driverStandings =
             data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
           for (const id in driverStandings) {
@@ -55,17 +57,17 @@ export default {
               id: driver.driverId,
               position: parseInt(id) + 1,
               number: driver.permanentNumber,
-              name: driver.givenName + " " + driver.familyName,
+              name: driver.givenName + ' ' + driver.familyName,
               car: driverStandings[id].Constructors[0].name,
               points: driverStandings[id].points,
-              url: driver.url,
+              url: driver.url
             });
           }
         });
-    },
+    }
   },
   mounted() {
     this.getStandings();
-  },
+  }
 };
 </script>

@@ -35,8 +35,28 @@ a {
   color: #b2482e;
 }
 
+hr {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, #ccc, transparent);
+}
+
 p {
   padding: 10px;
+  color: white;
+  max-width: 750px;
+  text-align: center;
+  margin: auto;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 @media screen and (min-width: 750px) {
@@ -88,9 +108,11 @@ body {
   color: #2c3e50;
 }
 
-.driverTableWrapper {
+.driverTableWrapper,
+.constructorTableWrapper {
   width: 100%;
   min-width: 200px;
+  margin: 15px auto;
 }
 
 tr {
@@ -131,7 +153,6 @@ table {
   border-radius: 10px;
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  border-radius: 10px;
 }
 
 thead,
@@ -153,6 +174,6 @@ th[title] {
   overflow: hidden;
   margin-bottom: 0 !important;
   margin-top: 10px !important;
-  border: solid 4px #b2482e;
+  border: solid 3px #b2482e;
 }
 </style>
