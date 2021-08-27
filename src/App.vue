@@ -2,16 +2,18 @@
   <TheHeader title="F1 Standings" />
   <TheTableToggle />
   <ThePageInfo />
+  <TheDarkModeToggle />
 </template>
 
 <script>
 import TheHeader from './components/layouts/TheHeader.vue';
 import TheTableToggle from './components/layouts/TheTableToggle.vue';
 import ThePageInfo from './components/layouts/ThePageInfo.vue';
+import TheDarkModeToggle from './components/layouts/TheDarkModeToggle.vue';
 
 export default {
   name: 'App',
-  components: { TheHeader, TheTableToggle, ThePageInfo },
+  components: { TheHeader, TheTableToggle, ThePageInfo, TheDarkModeToggle },
   data() {
     return {
       selectedTable: 'drivers'
@@ -29,10 +31,32 @@ export default {
 
 html {
   font-family: 'Quicksand', sans-serif;
+  min-width: 200px;
+  --colour-blue: #1a2639;
+  --bg: #fcfcfc;
+  --bg-tint: #e8e8e8;
+  --colour-headings: #b2482e;
+  --colour-table-headings-text: #fcfcfc;
+  --colour-table-headings: #b2482e;
+  --colour-table-row: #fcfcfc;
+  --colour-table-row-accent: #ebebeb;
+  --colour-text: #333333;
+}
+
+html[data-theme='dark'] {
+  min-width: 200px;
+  --bg: #1a2639;
+  --bg-tint: #2e3a4d;
+  --colour-headings: #ffffff;
+  --colour-table-headings-text: #ffffff;
+  --colour-table-headings: #b2482e;
+  --colour-table-row: #333333;
+  --colour-table-row-accent: #1f1f1f;
+  --colour-text: #ffffff;
 }
 
 a {
-  color: #b2482e;
+  color: var(--colour-table-headings);
 }
 
 button:focus {
@@ -41,13 +65,14 @@ button:focus {
 
 hr {
   border: 0;
+  margin: 0 0 5px 0;
   height: 1px;
   background-image: linear-gradient(to right, transparent, #ccc, transparent);
 }
 
 p {
   padding: 10px;
-  color: white;
+  color: var(--colour-text);
   max-width: 750px;
   text-align: center;
   margin: auto;
@@ -61,6 +86,14 @@ p {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+html.transition,
+html.transition *,
+html.transition *:before,
+html.transition *:after {
+  transition: all 650ms !important;
+  transition-delay: 0 !important;
 }
 
 @media screen and (min-width: 750px) {
@@ -101,7 +134,7 @@ p {
 
 body {
   margin: 0;
-  background-color: #1a2639;
+  background-color: var(--bg);
 }
 
 #app {
@@ -109,7 +142,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
 }
 
 .driverTableWrapper,
@@ -122,13 +154,13 @@ body {
 tr {
   border-bottom: 1px solid #dddddd;
   text-align: center;
-  background-color: #333333;
-  color: #ffffff;
+  background-color: var(--colour-table-row);
+  color: var(--colour-text);
   transition: 0.3s;
 }
 
 tr:nth-of-type(even) {
-  background-color: #1f1f1f;
+  background-color: var(--colour-table-row-accent);
 }
 
 tr:hover {
@@ -138,7 +170,7 @@ tr:hover {
 }
 
 tr:last-of-type {
-  border-bottom: 4px solid #b2482e;
+  border-bottom: 4px solid var(--colour-table-headings);
 }
 
 td {
@@ -161,8 +193,8 @@ table {
 
 thead,
 thead tr {
-  background-color: #b2482e;
-  color: #ffffff;
+  background-color: var(--colour-table-headings);
+  color: var(--colour-table-headings-text);
 }
 
 th {
@@ -179,5 +211,9 @@ th[title] {
   margin-bottom: 0 !important;
   margin-top: 10px !important;
   border: solid 3px #b2482e;
+}
+
+.material-icons {
+  vertical-align: -0.275rem;
 }
 </style>

@@ -12,7 +12,7 @@
       <a href="https://github.com/SamuelTribeUK/F1-Standings" target="_blank"
         >GitHub</a
       >
-      | Version 1.0
+      | Version 1.2.0
     </p>
     <p class="footer-text">
       Icons are
@@ -41,7 +41,7 @@ export default {};
 <style scoped>
 .footer-card {
   margin: 15px auto;
-  background-color: #2e3a4d;
+  background-color: var(--bg-tint);
   padding: 0 5px;
   overflow: hidden;
 }
