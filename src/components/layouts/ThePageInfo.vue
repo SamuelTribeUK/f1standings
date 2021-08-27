@@ -12,7 +12,7 @@
       <a href="https://github.com/SamuelTribeUK/F1-Standings" target="_blank"
         >GitHub</a
       >
-      | Version 1.2.0
+      | Version 1.3.0
     </p>
     <p class="footer-text">
       Icons are
