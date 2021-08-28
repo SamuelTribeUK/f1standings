@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     getStandings() {
-      fetch('https://f1.samueltribe.com/constructorStandings.json')
+      fetch('https://api.samueltribe.com/constructorStandings.json')
         .then(response => {
           if (response.ok) {
             return response.json();

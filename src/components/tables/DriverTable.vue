@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     getStandings() {
-      fetch('https://f1.samueltribe.com/driverStandings.json')
+      fetch('https://api.samueltribe.com/driverStandings.json')
         .then(response => {
           if (response.ok) {
             return response.json();
