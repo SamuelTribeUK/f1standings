@@ -40,6 +40,27 @@ export default {
     this.getStandings();
   },
   methods: {
+    checkLocal() {
+      // Check local storage
+      const oldTime = localStorage.getItem('constructorStandingsTime');
+      if (oldTime) {
+        // local data exists, check timing
+        let intOldTime = parseInt(oldTime);
+        // Time limit of 60 seconds before checking api
+        const timeLimit = 60;
+        if (intOldTime + timeLimit <= Math.floor(Date.now() / 1000)) {
+          this.getStandings();
+        } else {
+          // Use local storage instead of api
+          let constructorStandings = JSON.parse(
+            localStorage.getItem('constructorStandings')
+          );
+          this.populateConstructorArray(constructorStandings);
+        }
+      } else {
+        this.getStandings();
+      }
+    },
     getStandings() {
       fetch('https://api.samueltribe.com/constructorStandings.json')
         .then(response => {
@@ -50,17 +71,26 @@ export default {
         .then(data => {
           const constructorStandings =
             data.MRData.StandingsTable.StandingsLists[0].ConstructorStandings;
-          for (const id in constructorStandings) {
-            const constructor = constructorStandings[id].Constructor;
-            this.constructors.push({
-              id: constructor.constructorId,
-              position: parseInt(id) + 1,
-              team: constructorStandings[id].Constructor.name,
-              points: constructorStandings[id].points,
-              url: constructor.url
-            });
-          }
+          localStorage.setItem(
+            'constructorStandings',
+            JSON.stringify(constructorStandings)
+          );
+          const time = Math.floor(Date.now() / 1000);
+          localStorage.setItem('constructorStandingsTime', time);
+          this.populateConstructorArray(constructorStandings);
         });
+    },
+    populateConstructorArray(constructorStandings) {
+      for (const id in constructorStandings) {
+        const constructor = constructorStandings[id].Constructor;
+        this.constructors.push({
+          id: constructor.constructorId,
+          position: parseInt(id) + 1,
+          team: constructorStandings[id].Constructor.name,
+          points: constructorStandings[id].points,
+          url: constructor.url
+        });
+      }
     }
   }
 };
