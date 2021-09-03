@@ -9,7 +9,7 @@
       Developed by
       <a href="https://samueltribe.com/" target="_blank">Samuel Tribe</a> |
       Source code is on
-      <a href="https://github.com/SamuelTribeUK/F1-Standings" target="_blank"
+      <a href="https://github.com/SamuelTribeUK/f1standings" target="_blank"
         >GitHub</a
       >
       | Version 1.3.0
