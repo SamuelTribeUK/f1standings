@@ -1,35 +1,25 @@
 <template>
   <base-card class="toggleButtons">
-    <base-button
-      @click="setSelectedTable('driver-table')"
-      :mode="driversButtonMode"
-      >Drivers</base-button
-    >
-    <base-button
-      @click="setSelectedTable('constructor-table')"
-      :mode="constructorsButtonMode"
-      >Constructors</base-button
-    >
+    <router-link to="/driverStandings">
+      <base-button
+        @click="setSelectedTable('driver-table')"
+        :mode="driversButtonMode"
+        >Drivers</base-button
+      >
+    </router-link>
+    <router-link to="/constructorStandings">
+      <base-button
+        @click="setSelectedTable('constructor-table')"
+        :mode="constructorsButtonMode"
+        >Constructors</base-button
+      >
+    </router-link>
   </base-card>
-  <DriverTable
-    v-show="selectedTable === 'driver-table'"
-    :openInNewTab="openInNewTab"
-  />
-  <ConstructorTable
-    v-show="selectedTable === 'constructor-table'"
-    :openInNewTab="openInNewTab"
-  />
+  <router-view :openInNewTab="openInNewTab"></router-view>
 </template>
 
 <script>
-import DriverTable from '../tables/DriverTable.vue';
-import ConstructorTable from '../tables/ConstructorTable.vue';
-
 export default {
-  components: {
-    DriverTable,
-    ConstructorTable
-  },
   data() {
     return {
       selectedTable: 'driver-table'

@@ -25,6 +25,12 @@ button {
   cursor: pointer;
 }
 
+button.active {
+  background-color: #b2482e;
+  color: #ffffff;
+  border-color: #b2482e;
+}
+
 .flat {
   background-color: transparent;
   color: #b2482e;
