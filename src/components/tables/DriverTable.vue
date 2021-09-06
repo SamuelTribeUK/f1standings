@@ -1,5 +1,6 @@
 <template>
-  <base-card class="driverTableWrapper">
+  <pulse-loader v-if="loading" :loading="loading"></pulse-loader>
+  <base-card v-else class="driverTableWrapper">
     <table>
       <thead>
         <tr>
@@ -37,11 +38,13 @@ export default {
   },
   data() {
     return {
-      drivers: []
+      drivers: [],
+      loading: false
     };
   },
   methods: {
     checkLocal() {
+      this.loading = true;
       // Check local storage
       const oldTime = localStorage.getItem('driverStandingsTime');
       if (oldTime) {
@@ -94,6 +97,7 @@ export default {
           url: driver.url
         });
       }
+      this.loading = false;
     }
   },
   created() {

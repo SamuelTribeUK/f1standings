@@ -1,5 +1,6 @@
 <template>
-  <base-card class="constructorTableWrapper">
+  <pulse-loader v-if="loading" :loading="loading"></pulse-loader>
+  <base-card v-else class="constructorTableWrapper">
     <table>
       <thead>
         <tr>
@@ -33,14 +34,16 @@ export default {
   },
   data() {
     return {
-      constructors: []
+      constructors: [],
+      loading: false
     };
   },
   created() {
-    this.getStandings();
+    this.checkLocal();
   },
   methods: {
     checkLocal() {
+      this.loading = true;
       // Check local storage
       const oldTime = localStorage.getItem('constructorStandingsTime');
       if (oldTime) {
@@ -91,6 +94,7 @@ export default {
           url: constructor.url
         });
       }
+      this.loading = false;
     }
   }
 };

@@ -34,6 +34,11 @@ html[data-theme='dark'] {
 a {
   color: var(--colour-table-headings);
 }
+/* a.active is the currently selected route button */
+a.active {
+  background-color: transparent;
+  color: #b2482e;
+}
 
 button:focus {
   outline-width: 0;
@@ -175,4 +180,10 @@ th[title] {
 
 .material-icons {
   vertical-align: -0.275rem;
+}
+
+.active {
+  background-color: #b2482e;
+  color: #ffffff;
+  border-color: #b2482e;
 }
