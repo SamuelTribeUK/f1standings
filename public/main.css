@@ -2,7 +2,7 @@
 
 * {
   box-sizing: border-box;
-  transition: 0.3s;
+  transition: 0.1s;
 }
 
 html {
@@ -98,7 +98,7 @@ p {
 body {
   margin: 0;
   background-color: var(--bg);
-  transition: 0.3s;
+  transition: 0.15s;
 }
 
 #app {
@@ -106,7 +106,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  transition: all 750ms;
+  transition: all 150ms;
 }
 
 .driverTableWrapper,
@@ -121,7 +121,7 @@ tr {
   text-align: center;
   background-color: var(--colour-table-row);
   color: var(--colour-text);
-  transition: 0.3s;
+  transition: 0.15s;
 }
 
 tr:nth-of-type(even) {

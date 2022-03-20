@@ -85,8 +85,12 @@ export default {
         });
     },
     populateDriverArray(driverStandings) {
+      // Currently an issue with format of Vettel json info, no constructor info so manually setting until a fix is released
       for (const id in driverStandings) {
         const driver = driverStandings[id].Driver;
+        if (driver.permanentNumber == 5) {
+          driverStandings[id].Constructors[0].name = 'Aston Martin';
+        }
         this.drivers.push({
           id: driver.driverId,
           position: parseInt(id) + 1,
