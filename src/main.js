@@ -16,7 +16,8 @@ const router = createRouter({
       path: '/driverStandings',
       component: DriverTable
     },
-    { path: '/constructorStandings', component: ConstructorTable }
+    { path: '/constructorStandings', component: ConstructorTable },
+    { path: '/:pathMatch(.*)', redirect: '/driverStandings' }
   ],
   linkActiveClass: 'active'
 });

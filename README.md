@@ -28,6 +28,12 @@ npm run lint
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-## Version 1.3.1
+## Changelog
+
+### Version 1.3.1
 
 Fixed JSON issue with Sebastian Vettel - no constructors info from api, temp workaround is used for now
+
+### Verison 1.3.2
+
+Improved routing with custom URLs, now entering full URL should load correct page, or default to the driver standings page
