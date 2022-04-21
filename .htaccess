@@ -1,1 +1,2 @@
-Redirect 301 / https://f1.samueltribe.com/
+FallbackResource /index.html
+ErrorDocument 404 /index.html
