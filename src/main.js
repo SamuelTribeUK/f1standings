@@ -7,6 +7,7 @@ import BaseButton from './components/UI/BaseButton.vue';
 import DriverTable from './components/tables/DriverTable.vue';
 import ConstructorTable from './components/tables/ConstructorTable.vue';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue';
+import DriverInfo from './components/layouts/DriverInfo.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,12 +15,18 @@ const router = createRouter({
     { path: '/', redirect: '/driverStandings' },
     {
       path: '/driverStandings',
-      component: DriverTable
+      component: DriverTable,
     },
     { path: '/constructorStandings', component: ConstructorTable },
-    { path: '/:pathMatch(.*)', redirect: '/driverStandings' }
+    { path: '/:pathMatch(.*)', redirect: '/driverStandings' },
+    {
+      path: '/driver/:driverNumber',
+      component: DriverInfo,
+      name: 'driverPage',
+      props: true,
+    },
   ],
-  linkActiveClass: 'active'
+  linkActiveClass: 'active',
 });
 
 createApp(App)

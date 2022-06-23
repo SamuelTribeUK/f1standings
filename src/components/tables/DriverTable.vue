@@ -21,7 +21,7 @@
             :name="driver.name"
             :car="driver.car"
             :points="driver.points"
-            @click="openInNewTab(driver.url)"
+            :url="driver.url"
           ></driver-row>
         </keep-alive>
       </tbody>
@@ -32,14 +32,13 @@
 <script>
 import DriverRow from './rows/DriverRow.vue';
 export default {
-  props: ['openInNewTab'],
   components: {
-    DriverRow
+    DriverRow,
   },
   data() {
     return {
       drivers: [],
-      loading: false
+      loading: false,
     };
   },
   methods: {
@@ -67,12 +66,12 @@ export default {
     },
     getStandings() {
       fetch('https://api.samueltribe.com/driverStandings.json')
-        .then(response => {
+        .then((response) => {
           if (response.ok) {
             return response.json();
           }
         })
-        .then(data => {
+        .then((data) => {
           const driverStandings =
             data.MRData.StandingsTable.StandingsLists[0].DriverStandings;
           localStorage.setItem(
@@ -98,14 +97,14 @@ export default {
           name: driver.givenName + ' ' + driver.familyName,
           car: driverStandings[id].Constructors[0].name,
           points: driverStandings[id].points,
-          url: driver.url
+          url: driver.url,
         });
       }
       this.loading = false;
-    }
+    },
   },
   created() {
     this.checkLocal();
-  }
+  },
 };
 </script>

@@ -15,14 +15,14 @@
       >
     </router-link>
   </base-card>
-  <router-view :openInNewTab="openInNewTab"></router-view>
+  <router-view></router-view>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      selectedTable: 'driver-table'
+      selectedTable: 'driver-table',
     };
   },
   computed: {
@@ -31,7 +31,7 @@ export default {
     },
     constructorsButtonMode() {
       return this.selectedTable === 'constructor-table' ? null : 'flat';
-    }
+    },
   },
   methods: {
     setSelectedTable(table) {
@@ -39,8 +39,8 @@ export default {
     },
     openInNewTab(url) {
       window.open(url, '_blank');
-    }
-  }
+    },
+  },
 };
 </script>
 

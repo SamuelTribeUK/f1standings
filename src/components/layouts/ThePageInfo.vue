@@ -12,7 +12,7 @@
       <a href="https://github.com/SamuelTribeUK/f1standings" target="_blank"
         >GitHub</a
       >
-      | Version 1.3.2
+      | Version 1.3.3 Dev
     </p>
     <p class="footer-text">
       Icons are
