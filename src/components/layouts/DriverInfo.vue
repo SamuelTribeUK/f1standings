@@ -1,26 +1,26 @@
 <template>
   <base-card class="driverTableWrapper">
-    <img id="driverPic" />
-    <table>
-      <thead>
-        <tr>
-          <th>Driver Name</th>
-          <th>Driver Number</th>
-          <th>Car</th>
-          <th>points</th>
-          <th>position</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ driverInfo.driverName }}</td>
-          <td>{{ driverInfo.driverNumber }}</td>
-          <td>{{ driverInfo.car }}</td>
-          <td>{{ driverInfo.points }}</td>
-          <td>{{ driverInfo.position }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="driverInfoContainer">
+      <div class="Driver-Picture">
+        <img id="driverPic" :src="driverPicUrl" />
+      </div>
+      <div class="Driver-Name">
+        <label for="driverNameText">Driver Name:</label>
+        <p id="driverNameText">{{ driverInfo.driverName }}</p>
+      </div>
+      <div class="Driver-Number">
+        <label for="driverNumberText">Driver Number:</label>
+        <p id="driverNumberText">{{ driverInfo.driverNumber }}</p>
+      </div>
+      <div class="Driver-Position">
+        <label for="driverPositionText">Driver Position:</label>
+        <p id="driverPositionText">{{ driverPositionText }}</p>
+      </div>
+      <div class="Constructors">
+        <label for="constructorsText">Constructors:</label>
+        <p id="constructorsText">{{ driverInfo.car }}</p>
+      </div>
+    </div>
   </base-card>
 </template>
 
@@ -31,39 +31,17 @@ export default {
       driverInfo: { driverNumber: this.$route.params.driverNumber },
     };
   },
-  methods: {
-    pictureAjaxRequest(url, callback) {
-      console.log('pictureAjaxRequest called');
-      var ajax = new XMLHttpRequest();
-      ajax.onreadystatechange = function () {
-        console.log(this.readyState + ' ' + this.status);
-        if (this.readyState == 4 && this.status == 200) {
-          callback(this);
-        }
-        ajax.onerror = function () {
-          console.log('Ajax request failed to: ' + url);
-        };
-        ajax.open('GET', url, false);
-        ajax.send();
-      };
+  computed: {
+    driverPicUrl: function () {
+      return 'driverPictures/' + this.driverInfo.driverNumber + '.jpg';
     },
-    getPicture(response) {
-      console.log('getPicture called');
-      var div = document.createElement('div');
-      div.innerHTML = response.responseText;
-      var imgs = div.getElementsByTagName('img');
-      this.driverInfo.pictureUrl = imgs[0].src;
-      console.log(this.driverInfo.pictureUrl);
-      document.getElementById('driverPic').href = this.driverInfo.pictureUrl;
-    },
-
-    onDocLoad() {
-      console.log('onDocLoad called');
-      console.log(this.driverInfo.url);
-      // TODO: MOVE THIS DRIVER PICTURE DOWNLOADING TO SERVER SIDE AND USE REQUESTS LIKE WE DO FOR API
-      fetch(this.driverInfo.url).then(function (response) {
-        this.getPicture(response);
-      });
+    driverPositionText: function () {
+      return (
+        this.driverInfo.position +
+        (['st', 'nd', 'rd'][
+          ((((parseInt(this.driverInfo.position) + 90) % 100) - 10) % 10) - 1
+        ] || 'th')
+      );
     },
   },
   created() {
@@ -97,7 +75,48 @@ export default {
       this.driverInfo.position = this.$route.params.position;
       this.driverInfo.url = this.$route.params.url;
     }
-    this.onDocLoad();
   },
 };
 </script>
+
+<style scoped>
+.driverInfoContainer {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    'Driver-Picture Driver-Name Driver-Name'
+    'Driver-Picture Driver-Number Driver-Position'
+    'Driver-Picture Constructors Constructors';
+}
+
+.Driver-Picture {
+  grid-area: Driver-Picture;
+  width: 100%;
+}
+
+.Driver-Name {
+  grid-area: Driver-Name;
+}
+
+.Driver-Number {
+  grid-area: Driver-Number;
+}
+
+.Driver-Position {
+  grid-area: Driver-Position;
+}
+
+.Constructors {
+  grid-area: Constructors;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 26%);
+}
+</style>

@@ -15,7 +15,7 @@
       >
     </router-link>
   </base-card>
-  <router-view></router-view>
+  <router-view :openInNewTab="openInNewTab"></router-view>
 </template>
 
 <script>

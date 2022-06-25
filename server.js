@@ -3,16 +3,18 @@ const express = require('express');
 const fs = require('fs');
 const fsx = require('fs-extra');
 const fetch = require('node-fetch');
+const history = require('connect-history-api-fallback');
 
 let settings = { method: 'Get' };
 // When server.js runs the driverStandings.json file will be updated immediately using updateData() and then called every 5 minutes
 updateData();
-setInterval(updateData, 300000);
+setInterval(updateData, 86400000);
 // Get the driver pictures, then update the driver pictures from wikipedia every week
 getDriverNames();
-setInterval(getDriverNames, 604800000);
+setInterval(getDriverNames, 86400000);
 
 const app = express();
+app.use(history());
 app.listen(3000);
 
 app.all('/', function (req, res, next) {
@@ -28,6 +30,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static('dist'));
+app.use('/driver/driverPictures', express.static('driver/driverPictures'));
 
 // when /driverStandings.json is accessed with a GET request the ./json/driverStandings.json file is sent back to the user
 app.get('/driverStandings.json', function (req, res) {
@@ -98,10 +101,9 @@ function updateData() {
 
 function getDriverNames() {
   let jsonData;
-  let titles = '';
 
   // Get the driver pictures from Wikipedia
-  fs.readFile('./json/driverStandings.json', 'utf8', (err, data) => {
+  fs.readFile('./json/driverStandings.json', 'utf8', async (err, data) => {
     if (err) {
       throw err;
     }
@@ -116,18 +118,22 @@ function getDriverNames() {
       } else if (name === 'George Russell') {
         name += ' (racing driver)';
       }
-      if (titles !== '') {
-        titles += '|';
-      }
-      titles += name;
+      jsonData[id].Driver.wikiName = name;
+      let driverNum = jsonData[id].Driver.permanentNumber;
+      getDriverPicUrlWiki(
+        name,
+        'https://en.wikipedia.org/w/api.php',
+        driverNum
+      );
+      // So we do not abuse the wiki api, wait 5 seconds between each request
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
-    scrapeData(titles, 'https://en.wikipedia.org/w/api.php');
   });
 }
 
 // PLAN : Get an array of all driver names, which will be used for the Wikipedia API requests to get the thumbnail image URL, which we then download.
-
-async function scrapeData(titles, url) {
+// REFACTOR : getDriverPicUrlWiki previously used a single api request to get all driver picture urls, but this is not useful to link to our existing driverStandings json data. instead, use a staggered one-by-one request approach (adding a wait for e.g. 1-5 seconds between requests so it never spams ~20 requests at a time)
+async function getDriverPicUrlWiki(titles, url, driverNumber) {
   // Use the base for wiki api url call and append params to it.
   await axios
     .get(url, {
@@ -148,23 +154,22 @@ async function scrapeData(titles, url) {
     .then((result) => {
       let driverPicUrlList = result.data.query.pages;
       for (const id in driverPicUrlList) {
-        let url, name;
+        let url;
         if (driverPicUrlList[id].original.source !== undefined) {
           url = driverPicUrlList[id].original.source;
-          name = driverPicUrlList[id].title;
-          name = name.replace(/\s+/g, '') + '.jpg';
-          downloadImage(url, name).catch(console.error);
+          downloadImage(url, driverNumber).catch(console.error);
         }
       }
-      console.log('driver pictures updated');
+      console.log('driver picture for ' + driverNumber + ' updated');
       return result.data;
     });
 }
 
 async function downloadImage(url, filepath) {
   // If public/driverPictures does not exist, create it first
-  fsx.ensureDir('./public/driverPictures');
-  filepath = './public/driverPictures/' + filepath;
+  fsx.ensureDir('./driver/driverPictures');
+  // Save the image with the filename of their driver number - so we can easily retrieve on the front end
+  filepath = './driver/driverPictures/' + filepath + '.jpg';
   const response = await axios({
     url,
     method: 'GET',
@@ -177,5 +182,3 @@ async function downloadImage(url, filepath) {
       .once('close', () => resolve(filepath));
   });
 }
-
-getDriverNames();
