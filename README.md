@@ -24,6 +24,11 @@ npm run build
 npm run lint
 ```
 
+### Production Site
+```
+https://f1.samueltribe.com/
+```
+
 ### Customize configuration
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
